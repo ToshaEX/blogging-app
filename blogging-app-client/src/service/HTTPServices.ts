@@ -14,7 +14,7 @@ class HTTPServices {
 
   sendRequest = (config: any) => {
     config.headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${window?.localStorage.getItem("token")}`,
       "Access-Control-Allow-Origin": "*",
     };
     return this.service?.request(config);
@@ -25,7 +25,7 @@ class HTTPServices {
   };
 
   handleError = (e: any) => {
-    console.log(e.response.data);
+    // console.log(e.response.data);
     if (!e.response) {
       return {
         data: {

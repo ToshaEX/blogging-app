@@ -8,8 +8,14 @@ type TextFieldPropType = {
   type: string;
   name: string;
   label: string;
+  w?: any;
   size?: "lg" | "sm" | "xs" | "md";
   variant?: "outline" | "filled" | "flushed" | "unstyled";
+};
+
+type FromProps = {
+  form: any;
+  field: any;
 };
 
 const TextField = ({
@@ -20,13 +26,14 @@ const TextField = ({
   label,
   size = "lg",
   variant = "outline",
+  w = "auto",
 }: TextFieldPropType) => {
   return (
     <Field name={name}>
-      {({ field, form }) => (
+      {({ field, form }: FromProps) => (
         <FormControl id={id} isRequired={isRequired}>
           <FormLabel>{label}</FormLabel>
-          <Input {...field} variant={variant} type={type} size={size} />
+          <Input {...field} variant={variant} type={type} size={size} w={w} />
         </FormControl>
       )}
     </Field>

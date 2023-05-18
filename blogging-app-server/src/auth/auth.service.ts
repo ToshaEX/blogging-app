@@ -3,7 +3,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/auth.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/sign-in.dto';
 import * as bcrypt from 'bcrypt';
@@ -26,6 +26,7 @@ export class AuthService {
 
     const createdUser = await this.userModel.create({
       ...createAuthDto,
+      _id: new Types.ObjectId(),
       password: hash,
     });
     const payload = {
@@ -43,7 +44,10 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (user && isMatch) {
-      const payload = { username: user?.username, email: user?.email };
+      const payload = {
+        username: user?.username,
+        email: user?.email,
+      };
       const accessToken = await this.jwtService.signAsync(payload);
       return { accessToken };
     } else {

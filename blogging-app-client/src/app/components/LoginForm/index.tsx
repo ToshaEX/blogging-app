@@ -9,12 +9,12 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { TextField } from "@/components";
+import { TextField } from "@/app/components";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { authService } from "@/service";
-import routes from "@/constant/routes";
+import routes from "@/app/constant/routes";
 import { useAppDispatch } from "@/hooks/hooks";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { LoginType, loggedIn } from "@/features/user/userSlice";
@@ -49,7 +49,7 @@ const submitHandle = async (
     .then((res) => {
       const token = res?.data.accessToken;
       const { username, email } = jwt_decode<LoginType>(token);
-      console.log(username);
+      // console.log(username);
       localStorage.setItem("token", token);
 
       dispatch(loggedIn({ username, email }));

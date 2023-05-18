@@ -15,6 +15,8 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Tooltip,
+  Avatar,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -22,12 +24,27 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import routes from "@/app/constant/routes";
+import { loggedOut } from "@/features/user/userSlice";
+import { useRouter } from "next/navigation";
+import { SecondaryButton, PrimaryButton } from "@/app/components";
 
-export default function NavigationS() {
+export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const user = useAppSelector((state) => state.user);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(loggedOut());
+  };
+  const handleRoute = (route: string) => {
+    router.push(route);
+  };
 
   return (
-    <Box>
+    <Box position={"sticky"} top="0" zIndex={"banner"}>
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -56,10 +73,11 @@ export default function NavigationS() {
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Text
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
+            fontFamily={"fantasy"}
             color={useColorModeValue("gray.800", "white")}
+            fontSize={"xl"}
           >
-            Logo
+            Blogger
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -73,29 +91,35 @@ export default function NavigationS() {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={"#"}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            Sign Up
-          </Button>
+          {user.username ? (
+            <>
+              <Tooltip label={user.username}>
+                <Avatar size={"sm"} name={user.username} src={""} />
+              </Tooltip>
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                onClick={handleLogout}
+              >
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <SecondaryButton
+                label="Sign In"
+                handleClick={() => handleRoute(routes.signIn)}
+              />
+
+              <PrimaryButton
+                label="Sign Up"
+                display={{ base: "none", md: "inline-flex" }}
+                handleClick={() => handleRoute(routes.signUp)}
+              />
+            </>
+          )}
         </Stack>
       </Flex>
 
@@ -268,41 +292,22 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Inspiration",
+    label: "Explore",
+    href: routes.explorer,
+  },
+  {
+    label: "My blogs",
     children: [
       {
-        label: "Explore Design Work",
-        subLabel: "Trending Design to inspire you",
-        href: "#",
+        label: "Blogs",
+        subLabel: "Find your blog post",
+        href: routes.myBlogPosts,
       },
       {
-        label: "New & Noteworthy",
-        subLabel: "Up-and-coming Designers",
-        href: "#",
+        label: "Write blog",
+        subLabel: "Write blog, share knowledge",
+        href: routes.createBlogPosts,
       },
     ],
-  },
-  {
-    label: "Find Work",
-    children: [
-      {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
-        href: "#",
-      },
-      {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
-        href: "#",
-      },
-    ],
-  },
-  {
-    label: "Learn Design",
-    href: "#",
-  },
-  {
-    label: "Hire Designers",
-    href: "#",
   },
 ];

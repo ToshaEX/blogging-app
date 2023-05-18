@@ -18,17 +18,27 @@
     "@types/node": "20.1.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
+    "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "formik": "^2.2.9",
     "framer-motion": "^10.12.9",
+    "html-to-draftjs": "^1.5.0",
     "jwt-decode": "^3.1.2",
     "next": "13.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-draft-wysiwyg": "^1.15.0",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0",
     "typescript": "5.0.4",
     "yup": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/draft-js": "^0.11.10",
+    "@types/draftjs-to-html": "^0.8.1",
+    "@types/html-to-draftjs": "^1.4.0",
+    "@types/react-draft-wysiwyg": "^1.13.4"
   }
 }

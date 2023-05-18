@@ -10,11 +10,13 @@ import {
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useToast } from "@chakra-ui/react";
-import { TextField } from "@/components";
 import { authService } from "@/service";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
-import routes from "@/constant/routes";
+import routes from "@/app/constant/routes";
+import dynamic from "next/dynamic";
+
+const TextField = dynamic(() => import("@/app/components/TextField"));
 
 const submitHandle = async (
   values: any,
@@ -81,7 +83,7 @@ const initialValue: InitialValueType = {
 
 const schema = Yup.object().shape({
   email: Yup.string().required().email(),
-  username: Yup.string().required().min(8).max(20),
+  username: Yup.string().required().min(5).max(20),
   password: Yup.string().required().min(8),
   confirmPassword: Yup.string().required().min(8),
 });

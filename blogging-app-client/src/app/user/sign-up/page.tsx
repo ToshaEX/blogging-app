@@ -1,6 +1,9 @@
 "use client";
-import { AuthTemplate } from "@/components";
-import SignUpForm from "./SignUpForm";
+import dynamic from "next/dynamic";
+
+const SignUpForm = dynamic(() => import("./SignUpForm"));
+const AuthTemplate = dynamic(() => import("@/app/components/AuthTemplate"));
+
 export default function SignUp() {
   return (
     <AuthTemplate

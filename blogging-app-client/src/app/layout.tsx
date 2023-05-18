@@ -1,4 +1,5 @@
 import "./globals.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 
