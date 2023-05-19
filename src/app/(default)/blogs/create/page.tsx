@@ -29,40 +29,44 @@ export default function Page() {
       const formData = new FormData();
       formData.append("file", value.file);
 
-      const { data, status } = await axios({
+      axios({
         url: process.env.NEXT_PUBLIC_API_URL + "upload",
         headers: { "content-type": "multipart/form-data" },
         method: "POST",
         data: formData,
-      });
-      if (status !== 201 && !toast.isActive("upload-fail")) {
-        toast({
-          title: "Image upload failed",
-          variant: "subtle",
-          status: "error",
-          id: "upload-fail",
+      })
+        .then((res) => {
+          delete value["file"];
+          postService.createPost({
+            ...value,
+            image_path: res.data.imagePath,
+          });
+        })
+        .catch(() => {
+          toast({
+            title: "Post creation failed",
+            variant: "subtle",
+            status: "error",
+            id: "post-creation-fail",
+          });
         });
-        return;
-      }
-      delete value["file"];
-      await postService.createPost({
-        ...value,
-        image_path: data.imagePath,
-      });
     } else {
       delete value["file"];
-      await postService.createPost({
-        ...value,
-      });
+      await postService
+        .createPost({
+          ...value,
+        })
+        .then(() => {
+          toast({
+            title: "Post created",
+            variant: "subtle",
+            status: "success",
+            id: "post-created",
+          });
+          resetForm(action);
+        });
     }
 
-    toast({
-      title: "Post created",
-      variant: "subtle",
-      status: "success",
-      id: "post-created",
-    });
-    resetForm(action);
     return;
   };
 
