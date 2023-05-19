@@ -65,7 +65,6 @@ const FileUpload = ({
                 if (!e.target.files) return;
                 const file = e.target.files[0];
                 setFieldValue("file", file);
-                console.log(e.target.files);
               }}
               value={undefined}
               w={w}

@@ -33,7 +33,7 @@ export default function Page() {
         px={{ base: "4em", md: "2em", sm: "1em" }}
         py={{ base: "2em", md: "1em", sm: ".5em" }}
       >
-        {posts?.map((post) => (
+        {posts.map((post) => (
           <BlogPostCard
             description={post.description}
             imageUrl={

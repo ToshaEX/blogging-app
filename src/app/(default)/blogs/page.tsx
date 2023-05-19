@@ -41,26 +41,29 @@ export default function Blogs() {
       py={{ base: "2em", md: "1em", sm: ".5em" }}
     >
       <SearchField setSearchString={setSearchString} />
-      {posts.length === 0 && <NotFound label="Posts" />}
-      {posts?.map((post) => (
-        <BlogPostCard
-          description={post.description}
-          imageUrl={
-            post.image_path
-              ? `${process.env.NEXT_PUBLIC_API_ASSETS_URL}${post.image_path}`
-              : FALLBACK_SRC
-          }
-          title={post.title}
-          key={post._id + post.title + post.image_path}
-          id={post._id}
-          author={post.author.username}
-          create_at={new Date(post.author.create_at)}
-          buttonLabel="View Article"
-          handleClick={() => {
-            handleClick(post._id);
-          }}
-        />
-      ))}
+      {posts.length === 0 ? (
+        <NotFound label="Posts" />
+      ) : (
+        posts?.map((post) => (
+          <BlogPostCard
+            description={post.description}
+            imageUrl={
+              post.image_path
+                ? `${process.env.NEXT_PUBLIC_API_ASSETS_URL}${post.image_path}`
+                : FALLBACK_SRC
+            }
+            title={post.title}
+            key={post._id + post.title + post.image_path}
+            id={post._id}
+            author={post.author.username}
+            create_at={new Date(post.author.create_at)}
+            buttonLabel="View Article"
+            handleClick={() => {
+              handleClick(post._id);
+            }}
+          />
+        ))
+      )}
     </Box>
   );
 }

@@ -28,9 +28,7 @@ const PrimaryButton = ({
       type={type}
       onClick={handleClick}
     >
-      <Text as={"label"} textAlign={"center"}>
-        {label}
-      </Text>
+      {label}
     </Button>
   );
 };

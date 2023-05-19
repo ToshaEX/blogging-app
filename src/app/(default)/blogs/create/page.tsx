@@ -24,6 +24,7 @@ export default function Page() {
     toast: any,
     _router: AppRouterInstance
   ) => {
+    console.log(value.file);
     if (value.file) {
       const formData = new FormData();
       formData.append("file", value.file);
