@@ -49,7 +49,6 @@ const submitHandle = async (
     .then((res) => {
       const token = res?.data.accessToken;
       const { username, email } = jwt_decode<LoginType>(token);
-      // console.log(username);
       localStorage.setItem("token", token);
 
       dispatch(loggedIn({ username, email }));

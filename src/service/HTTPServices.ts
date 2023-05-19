@@ -37,7 +37,6 @@ class HTTPServices {
   };
 
   handleError = (e: any) => {
-    // console.log(e.response.data);
     if (!e.response) {
       return {
         data: {

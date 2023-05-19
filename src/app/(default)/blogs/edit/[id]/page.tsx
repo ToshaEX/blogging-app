@@ -34,7 +34,6 @@ export default function EditBlogPost({ params }: pageType) {
   if (loading) return <Loading />;
   if (post === undefined || typeof post === "string")
     return <NotFound label="Post" />;
-  console.log(typeof post);
   const uploadFile = async (value: any) => {
     const formData = new FormData();
     formData.append("file", value.file);
