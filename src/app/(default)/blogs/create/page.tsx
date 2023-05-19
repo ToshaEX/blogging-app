@@ -18,17 +18,17 @@ export default function Page() {
     setReset(!reset);
   };
 
-  const handleSubmit = async (
+  const handleSubmit = (
     value: any,
     action: FormikHelpers<PostType>,
     toast: any,
     _router: AppRouterInstance
   ) => {
+    //With image file
     console.log(value.file);
     if (value.file) {
       const formData = new FormData();
       formData.append("file", value.file);
-
       axios({
         url: process.env.NEXT_PUBLIC_API_URL + "upload",
         headers: { "content-type": "multipart/form-data" },
@@ -51,8 +51,9 @@ export default function Page() {
           });
         });
     } else {
+      //Without image file
       delete value["file"];
-      await postService
+      postService
         .createPost({
           ...value,
         })
