@@ -1,5 +1,4 @@
 "use client";
-import { NotFound } from "@/app/components";
 import routes from "@/app/constant/routes";
 import Loading from "@/app/loading";
 import { postService } from "@/service";
@@ -9,6 +8,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const NotFound = dynamic(() => import("@/app/components/NotFound"));
 const BlogPostCard = dynamic(() => import("@/app/components/BlogPostCard"));
 const SearchField = dynamic(() => import("@/app/components/SearchField"));
 

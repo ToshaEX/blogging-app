@@ -28,6 +28,7 @@ export default function EditBlogPost({ params }: pageType) {
       setPost(res?.data);
       setLoading(false);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;
