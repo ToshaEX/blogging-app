@@ -235,9 +235,13 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href, hide }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
-
+  const user = useAppSelector((state) => state.user);
   return (
-    <Stack spacing={4} onClick={children && onToggle} hidden={hide}>
+    <Stack
+      spacing={4}
+      onClick={children && onToggle}
+      hidden={hide ? false : user.username ? false : true}
+    >
       <Flex
         py={2}
         as={Link}
