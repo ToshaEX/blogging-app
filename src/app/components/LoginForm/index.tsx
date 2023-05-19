@@ -21,8 +21,8 @@ import { LoginType, loggedIn } from "@/features/user/userSlice";
 import jwt_decode from "jwt-decode";
 
 type InitialValueType = {
-  email: String;
-  password: String;
+  email: string;
+  password: string;
 };
 
 const initialValue: InitialValueType = {
@@ -31,8 +31,8 @@ const initialValue: InitialValueType = {
 };
 
 const schema = Yup.object().shape({
-  email: Yup.string().required().email(),
-  password: Yup.string().required().min(8),
+  email: Yup.string().required().email("required valid email address"),
+  password: Yup.string().required().min(8, "Password should be greater than 8"),
 });
 
 const submitHandle = async (
@@ -84,16 +84,17 @@ const LoginForm = () => {
       boxShadow={"lg"}
       p={8}
     >
-      <Stack spacing={4}>
+      <Stack spacing={4} align={"center"}>
         <Formik
           initialValues={initialValue}
+          validateOnMount={false}
+          validateOnChange={false}
           validationSchema={schema}
           onSubmit={async (values, actions) => {
-            //**API call */
             submitHandle(values, actions, toast, router, dispatch);
           }}
         >
-          {({}) => (
+          {({ errors, touched }) => (
             <Form>
               <TextField
                 id="email"
@@ -102,6 +103,8 @@ const LoginForm = () => {
                 type="email"
                 label="Email address"
                 size="lg"
+                error={errors.email && touched.email}
+                errorMessage={errors.email}
               />
               <TextField
                 id="password"
@@ -109,6 +112,8 @@ const LoginForm = () => {
                 name="password"
                 type="password"
                 label="Password"
+                error={errors.password && touched.password}
+                errorMessage={errors.password}
               />
               <Stack spacing={10}>
                 <Stack

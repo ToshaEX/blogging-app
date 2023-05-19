@@ -25,6 +25,7 @@ export default function Page() {
     _router: AppRouterInstance
   ) => {
     //With image file
+    console.log("Click");
     console.log(value.file);
     if (value.file) {
       const formData = new FormData();
@@ -67,7 +68,6 @@ export default function Page() {
           resetForm(action);
         });
     }
-
     return;
   };
 

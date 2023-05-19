@@ -2,18 +2,11 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 
 type ButtonPropsType = {
-  handleClick?: () => void;
   label: string;
   display?: any;
-  type?: "button" | "submit";
 };
 
-const PrimaryButton = ({
-  handleClick = () => {},
-  label,
-  display = "inline-flex",
-  type = "button",
-}: ButtonPropsType) => {
+const SubmitButton = ({ label, display = "inline-flex" }: ButtonPropsType) => {
   return (
     <Button
       as={"button"}
@@ -25,12 +18,11 @@ const PrimaryButton = ({
       _hover={{
         bg: "pink.300",
       }}
-      type={type}
-      onClick={handleClick}
+      type={"submit"}
     >
       {label}
     </Button>
   );
 };
 
-export default PrimaryButton;
+export default SubmitButton;

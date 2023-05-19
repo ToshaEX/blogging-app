@@ -49,8 +49,10 @@ const initialValue: PostType = {
 };
 
 const schema = Yup.object().shape({
-  title: Yup.string().min(6).required(),
-  description: Yup.string().min(6).required(),
+  title: Yup.string().min(6, "Title should be greater than 6").required(),
+  description: Yup.string()
+    .min(6, "description should be greater than 6")
+    .required(),
   post: Yup.string().required().min(5),
 });
 
@@ -83,7 +85,7 @@ const BlogPostCreateEditForm = ({
             submitHandle(value, action, toast, router);
           }}
         >
-          {({ setFieldValue, values, handleSubmit }) => (
+          {({ setFieldValue, values, errors, touched }) => (
             <Form>
               <Box
                 justifyContent={"start"}
@@ -104,6 +106,9 @@ const BlogPostCreateEditForm = ({
                     variant="outline"
                     isRequired={true}
                     id="title"
+                    error={errors.title && touched.title}
+                    errorMessage={errors.title}
+                    helperText="Title should be longer than 6 characters"
                   />
                   <TextField
                     name="description"
@@ -114,6 +119,9 @@ const BlogPostCreateEditForm = ({
                     variant="outline"
                     isRequired={true}
                     id="description"
+                    error={errors.description && touched.description}
+                    errorMessage={errors.description}
+                    helperText="Description should be longer than 6 characters"
                   />
                   <FileUpload
                     isRequired={false}

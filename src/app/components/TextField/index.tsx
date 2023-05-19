@@ -1,6 +1,12 @@
 import React from "react";
 import { Field } from "formik";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 
 type TextFieldPropType = {
   isRequired: boolean;
@@ -11,6 +17,9 @@ type TextFieldPropType = {
   w?: any;
   size?: "lg" | "sm" | "xs" | "md";
   variant?: "outline" | "filled" | "flushed" | "unstyled";
+  error: boolean | string | undefined;
+  errorMessage: string | undefined;
+  helperText?: string;
 };
 
 type FromProps = {
@@ -27,13 +36,21 @@ const TextField = ({
   size = "lg",
   variant = "outline",
   w = "auto",
+  error = false,
+  errorMessage,
+  helperText = "",
 }: TextFieldPropType) => {
   return (
     <Field name={name}>
       {({ field }: FromProps) => (
-        <FormControl id={id} isRequired={isRequired}>
+        <FormControl id={id} isRequired={isRequired} isInvalid={!!error}>
           <FormLabel>{label}</FormLabel>
           <Input {...field} variant={variant} type={type} size={size} w={w} />
+          {!error ? (
+            <FormHelperText>{helperText}</FormHelperText>
+          ) : (
+            <FormErrorMessage>{errorMessage}</FormErrorMessage>
+          )}
         </FormControl>
       )}
     </Field>

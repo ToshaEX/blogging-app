@@ -84,9 +84,12 @@ const initialValue: InitialValueType = {
 
 const schema = Yup.object().shape({
   email: Yup.string().required().email(),
-  username: Yup.string().required().min(5).max(20),
-  password: Yup.string().required().min(8),
-  confirmPassword: Yup.string().required().min(8),
+  username: Yup.string()
+    .required()
+    .min(5, "Username is too short")
+    .max(20, "Username is too long"),
+  password: Yup.string().required().min(8, "Password is too short"),
+  confirmPassword: Yup.string().required().min(8, "Password is too short"),
 });
 
 const SignUpForm = () => {
@@ -99,15 +102,17 @@ const SignUpForm = () => {
       boxShadow={"lg"}
       p={8}
     >
-      <Stack spacing={4}>
+      <Stack spacing={4} align={"center"}>
         <Formik
           initialValues={initialValue}
+          validateOnMount={false}
+          validateOnChange={false}
           validationSchema={schema}
           onSubmit={(value, action) =>
             submitHandle(value, action, toast, router)
           }
         >
-          {({ isSubmitting }) => (
+          {({ errors, touched }) => (
             <Form>
               <TextField
                 id="username"
@@ -115,6 +120,8 @@ const SignUpForm = () => {
                 name="username"
                 type="text"
                 label="Username"
+                error={errors.username && touched.username}
+                errorMessage={errors.username}
               />
               <TextField
                 id="email"
@@ -122,6 +129,8 @@ const SignUpForm = () => {
                 name="email"
                 type=" email"
                 label="Email address"
+                error={errors.email && touched.email}
+                errorMessage={errors.email}
               />
               <TextField
                 id="password"
@@ -129,6 +138,8 @@ const SignUpForm = () => {
                 name="password"
                 type="password"
                 label="Password"
+                error={errors.password && touched.password}
+                errorMessage={errors.password}
               />
               <TextField
                 id="confirmPassword"
@@ -136,6 +147,8 @@ const SignUpForm = () => {
                 name="confirmPassword"
                 type="password"
                 label="Confirm Password"
+                error={errors.confirmPassword && touched.confirmPassword}
+                errorMessage={errors.confirmPassword}
               />
               <Stack spacing={10}>
                 <Stack
