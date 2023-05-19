@@ -34,7 +34,7 @@ export default function Page() {
         px={{ base: "4em", md: "2em", sm: "1em" }}
         py={{ base: "2em", md: "1em", sm: ".5em" }}
       >
-        {posts.length ? (
+        {posts.length === 0 ? (
           <NotFound label="Posts" />
         ) : (
           posts.map((post) => (
