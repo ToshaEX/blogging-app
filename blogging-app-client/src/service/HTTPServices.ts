@@ -20,6 +20,16 @@ class HTTPServices {
     return this.service?.request(config);
   };
 
+  uploadRequest = (config: any) => {
+    //TODO :File upload  request
+    config.headers = {
+      Authorization: `Bearer ${window?.localStorage.getItem("token")}`,
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "",
+    };
+    return this.service?.request(config);
+  };
+
   handleSuccess = (res: any) => {
     return res;
   };

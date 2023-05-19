@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   Text,
   Stack,
@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormControl,
   Image,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -20,7 +21,9 @@ import {
   FileUpload,
   PrimaryButton,
   TextField,
+  SecondaryButton,
 } from "@/app/components";
+import ModalView from "../ModalView";
 
 type PagePropsType = {
   title: string;
@@ -34,6 +37,8 @@ type PagePropsType = {
   buttonLabel: string;
   initialProps?: PostType;
   imageUrl?: string;
+  deleteHandle?: (toast: any, router: AppRouterInstance) => void;
+  deleteLabel?: string;
 };
 
 const initialValue: PostType = {
@@ -59,9 +64,12 @@ const BlogPostCreateEditForm = ({
   reset,
   initialProps,
   imageUrl,
+  deleteHandle,
+  deleteLabel,
 }: PagePropsType) => {
   const router = useRouter();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Stack spacing={5}>
@@ -142,13 +150,26 @@ const BlogPostCreateEditForm = ({
                   </Field>
                 </Box>
               </Box>
-              <Box display={"flex"} justifyContent={"flex-end"} pt={4}>
+              <Box display={"flex"} justifyContent={"flex-end"} pt={4} gap={5}>
+                {initialProps && deleteLabel !== undefined && (
+                  <SecondaryButton label={deleteLabel} handleClick={onOpen} />
+                )}
                 <PrimaryButton label={buttonLabel} type="submit" />
               </Box>
             </Form>
           )}
         </Formik>
       </Stack>
+      {deleteHandle !== undefined && (
+        <ModalView
+          actionLabel="Delete"
+          handleAction={() => deleteHandle(toast, router)}
+          bodyText="This action may not revised "
+          modalTitle="You want to delete post?"
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      )}
     </>
   );
 };

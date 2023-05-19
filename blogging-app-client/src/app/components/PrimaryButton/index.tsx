@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import React from "react";
 
 type ButtonPropsType = {
@@ -28,7 +28,9 @@ const PrimaryButton = ({
       type={type}
       onClick={handleClick}
     >
-      {label}
+      <Text as={"label"} textAlign={"center"}>
+        {label}
+      </Text>
     </Button>
   );
 };

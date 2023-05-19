@@ -9,6 +9,7 @@ import {
   UseGuards,
   BadRequestException,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -28,8 +29,8 @@ export class PostController {
   }
 
   @Get()
-  getAllPosts() {
-    return this.postService.findAll();
+  getAllPosts(@Query('search') searchStr: string) {
+    return this.postService.findAll(searchStr);
   }
 
   @Get('/user')
@@ -58,7 +59,7 @@ export class PostController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  deletePost(@Param('id') id: string) {
+    return this.postService.deletePost(id);
   }
 }

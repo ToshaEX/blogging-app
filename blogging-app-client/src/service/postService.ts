@@ -35,10 +35,17 @@ class PostService extends HTTPServices {
       responseType: "json",
     });
   }
-  async getAllPosts() {
+  async getAllPosts(searchString: string) {
     return await this.sendRequest({
       method: "GET",
-      url: "/post",
+      url: `/post/?search=${searchString}`,
+      responseType: "json",
+    });
+  }
+  async deletePost(id: string) {
+    return await this.sendRequest({
+      method: "DELETE",
+      url: `/post/${id}`,
       responseType: "json",
     });
   }

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { TextField } from "@/app/components";
+import { PrimaryButton, TextField } from "@/app/components";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
@@ -93,7 +93,7 @@ const LoginForm = () => {
             submitHandle(values, actions, toast, router, dispatch);
           }}
         >
-          {({ isSubmitting }) => (
+          {({}) => (
             <Form>
               <TextField
                 id="email"
@@ -122,17 +122,7 @@ const LoginForm = () => {
                     Create account?
                   </Link>
                 </Stack>
-                <Button
-                  type="submit"
-                  bg={"blue.400"}
-                  color={"white"}
-                  _hover={{
-                    bg: "blue.500",
-                  }}
-                  isLoading={isSubmitting}
-                >
-                  Login
-                </Button>
+                <PrimaryButton label="Login" type="submit" />
               </Stack>
             </Form>
           )}

@@ -2,8 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   UploadedFile,
@@ -11,14 +9,19 @@ import {
   BadRequestException,
   Res,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { UploadService } from './upload.service';
-import { UpdateUploadDto } from './dto/update-upload.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuid } from 'uuid';
 import { of } from 'rxjs';
 import { join } from 'path';
+import * as fs from 'fs';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
+
+const dirPath = join(process.cwd(), 'uploads/');
 
 const storage = {
   storage: diskStorage({
@@ -44,19 +47,22 @@ export class UploadController {
   }
 
   @Get('/:filename')
-  findOne(@Param('filename') filename: string, @Res() res) {
-    return of(res.sendFile(join(process.cwd(), 'uploads/' + filename)));
+  async getImage(@Param('filename') filename: string, @Res() res: Response) {
+    const filePath = join(dirPath + filename);
+    const isExists = fs.existsSync(filePath) && fs.lstatSync(filePath).isFile();
+    if (!isExists) throw new NotFoundException('Image not found');
+    return of(res.sendFile(filePath));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUploadDto: UpdateUploadDto) {
-    return this.uploadService.update(+id, updateUploadDto);
-  }
+  @Delete('/:filename')
+  @UseGuards(JwtAuthGuard)
+  async deleteFIle(@Param('filename') filename: string) {
+    const filePath = join(dirPath + filename);
+    const isExists = fs.existsSync(filePath) && fs.lstatSync(filePath).isFile();
+    if (!filename || !isExists) {
+      throw new NotFoundException('Image not found');
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.uploadService.remove(+id);
+    return await fs.promises.unlink(filePath);
   }
 }
-
-//res https://www.youtube.com/watch?v=f-URVd2OKYc

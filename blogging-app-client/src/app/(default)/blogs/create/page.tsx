@@ -22,7 +22,7 @@ export default function Page() {
     value: any,
     action: FormikHelpers<PostType>,
     toast: any,
-    router: AppRouterInstance
+    _router: AppRouterInstance
   ) => {
     if (value.file) {
       const formData = new FormData();

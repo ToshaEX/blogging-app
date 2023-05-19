@@ -1,10 +1,8 @@
 "use client";
-import routes from "@/app/constant/routes";
 import { Text, Image } from "@chakra-ui/react";
 import { postService } from "@/service";
 import { PostResponseType } from "@/types/posts";
 import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 
@@ -15,7 +13,6 @@ type PageProps = {
 export default function Page({ params }: PageProps) {
   const [post, setPost] = useState<PostResponseType>();
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
 
   useEffect(() => {
     postService.getPostById(params.id).then((res) => {
@@ -44,7 +41,7 @@ export default function Page({ params }: PageProps) {
       <Image
         objectFit="cover"
         w={{ md: "50em" }}
-        //  maxH={{ md: "20em", sm: "50em" }}
+        maxH={{ md: "30em", sm: "20em" }}
         src={
           post.image_path
             ? `${process.env.NEXT_PUBLIC_API_ASSETS_URL}${post.image_path}`

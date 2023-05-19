@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/auth.schema';
 import { Model, Types } from 'mongoose';
@@ -57,13 +56,5 @@ export class AuthService {
 
   async findUserByEmail(email: string): Promise<User> {
     return await this.userModel.findOne({ email });
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
   }
 }

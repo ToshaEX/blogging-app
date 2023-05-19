@@ -30,7 +30,7 @@ const TextField = ({
 }: TextFieldPropType) => {
   return (
     <Field name={name}>
-      {({ field, form }: FromProps) => (
+      {({ field }: FromProps) => (
         <FormControl id={id} isRequired={isRequired}>
           <FormLabel>{label}</FormLabel>
           <Input {...field} variant={variant} type={type} size={size} w={w} />

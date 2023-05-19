@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import routes from "@/app/constant/routes";
 import dynamic from "next/dynamic";
+import { PrimaryButton } from "@/app/components";
 
 const TextField = dynamic(() => import("@/app/components/TextField"));
 
@@ -149,17 +150,7 @@ const SignUpForm = () => {
                     Sign In Here
                   </Link>
                 </Stack>
-                <Button
-                  type="submit"
-                  bg={"blue.400"}
-                  color={"white"}
-                  _hover={{
-                    bg: "blue.500",
-                  }}
-                  isLoading={isSubmitting}
-                >
-                  Sign Up
-                </Button>
+                <PrimaryButton label="Sign Up" type="submit" />
               </Stack>
             </Form>
           )}

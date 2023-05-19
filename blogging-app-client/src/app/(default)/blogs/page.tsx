@@ -1,4 +1,5 @@
 "use client";
+import { NotFound } from "@/app/components";
 import routes from "@/app/constant/routes";
 import Loading from "@/app/loading";
 import { postService } from "@/service";
@@ -9,21 +10,23 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const BlogPostCard = dynamic(() => import("@/app/components/BlogPostCard"));
+const SearchField = dynamic(() => import("@/app/components/SearchField"));
 
 const FALLBACK_SRC =
   "https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80";
 export default function Blogs() {
   const [posts, setPosts] = useState<PostResponseType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchString, setSearchString] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
-    postService.getAllPosts().then((res) => {
+    postService.getAllPosts(searchString).then((res) => {
       const data: PostResponseType[] = res?.data;
       setPosts(data);
       setLoading(false);
     });
-  }, []);
+  }, [searchString]);
 
   if (loading) {
     return <Loading />;
@@ -37,6 +40,8 @@ export default function Blogs() {
       px={{ base: ".5em", md: "2em", sm: "1em" }}
       py={{ base: "2em", md: "1em", sm: ".5em" }}
     >
+      <SearchField setSearchString={setSearchString} />
+      {posts.length === 0 && <NotFound label="Posts" />}
       {posts?.map((post) => (
         <BlogPostCard
           description={post.description}

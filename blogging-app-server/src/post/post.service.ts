@@ -21,9 +21,22 @@ export class PostService {
     });
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(searchStr: string): Promise<User[]> {
+    const searchRegex = new RegExp(searchStr, 'i');
+
+    const authors = await this.userModel.find({
+      username: { $regex: searchRegex },
+    });
+
+    const authorIds = authors.map((author) => author._id);
+
     return await this.postModel
-      .find()
+      .find({
+        $or: [
+          { author: { $in: authorIds } },
+          { title: { $regex: searchRegex } },
+        ],
+      })
       .sort('-create_at')
       .populate('author', ['username', 'create_at'], User.name);
   }
@@ -43,8 +56,8 @@ export class PostService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async deletePost(id: string) {
+    return await this.postModel.deleteOne({ _id: new Types.ObjectId(id) });
   }
 
   async getPostsByUser(user: User) {

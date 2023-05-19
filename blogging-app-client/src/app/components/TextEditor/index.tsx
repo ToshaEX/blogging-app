@@ -71,5 +71,3 @@ const TextEditor = ({
 };
 
 export default TextEditor;
-
-// setHtml(draftToHtml(convertToRaw(editorState.getCurrentContent())))

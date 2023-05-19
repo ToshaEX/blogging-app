@@ -134,11 +134,14 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
-
+  const user = useAppSelector((state) => state.user);
   return (
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
+        <Box
+          key={navItem.label}
+          hidden={!navItem.hide ? false : user.username ? false : true}
+        >
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
               <Link
@@ -230,11 +233,11 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, href, hide }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Stack spacing={4} onClick={children && onToggle} hidden={hide}>
       <Flex
         py={2}
         as={Link}
@@ -284,6 +287,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 };
 
 interface NavItem {
+  hide?: boolean;
   label: string;
   subLabel?: string;
   children?: Array<NavItem>;
@@ -297,6 +301,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "My blogs",
+    hide: true,
     children: [
       {
         label: "Blogs",
