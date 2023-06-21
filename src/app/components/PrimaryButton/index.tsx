@@ -6,6 +6,7 @@ type ButtonPropsType = {
   label: string;
   display?: any;
   type?: "button" | "submit";
+  isLoading?: boolean;
 };
 
 const PrimaryButton = ({
@@ -13,6 +14,7 @@ const PrimaryButton = ({
   label,
   display = "inline-flex",
   type = "button",
+  isLoading = false,
 }: ButtonPropsType) => {
   return (
     <Button
@@ -27,6 +29,7 @@ const PrimaryButton = ({
       }}
       type={type}
       onClick={handleClick}
+      isLoading={isLoading}
     >
       {label}
     </Button>

@@ -22,6 +22,7 @@ type pageType = {
 export default function EditBlogPost({ params }: pageType) {
   const [post, setPost] = useState<PostResponseType>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     postService.getPostById(params.id).then((res) => {
@@ -77,6 +78,7 @@ export default function EditBlogPost({ params }: pageType) {
 
   const deleteHandle = async (toast: any, router: AppRouterInstance) => {
     const removeImage = removePreviousFile();
+
     const removePost = postService.deletePost(post._id);
 
     return await Promise.all([removeImage, removePost])
@@ -106,8 +108,11 @@ export default function EditBlogPost({ params }: pageType) {
     router: AppRouterInstance
   ) => {
     try {
+      setIsSubmitting(true);
       if (value.file) {
-        submitHandleWithNewImage(value, toast, router);
+        submitHandleWithNewImage(value, toast, router).finally(() =>
+          setIsSubmitting(false)
+        );
       } else {
         delete value["file"];
         await postService
@@ -121,6 +126,7 @@ export default function EditBlogPost({ params }: pageType) {
               status: "success",
               id: "update-done",
             });
+            setIsSubmitting(false);
             window.location.reload();
           });
       }
@@ -131,6 +137,7 @@ export default function EditBlogPost({ params }: pageType) {
         status: "error",
         id: "update-fail",
       });
+      setIsSubmitting(false);
     }
   };
 
@@ -149,6 +156,7 @@ export default function EditBlogPost({ params }: pageType) {
         title: post?.title,
       }}
       imageUrl={post.image_path}
+      isSubmitting={isSubmitting}
     />
   );
 }

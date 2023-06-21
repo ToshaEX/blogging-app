@@ -13,6 +13,7 @@ const BlogPostCreateEditForm = dynamic(
 
 export default function Page() {
   const [reset, setReset] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const resetForm = (action: FormikHelpers<PostType>) => {
     action.resetForm();
     setReset(!reset);
@@ -25,6 +26,8 @@ export default function Page() {
     _router: AppRouterInstance
   ) => {
     //With image file
+    setIsSubmitting(true);
+    console.log("1st", isSubmitting);
     if (value.file) {
       const formData = new FormData();
       formData.append("file", value.file);
@@ -49,6 +52,8 @@ export default function Page() {
             id: "post-creation-fail",
           });
         });
+      setIsSubmitting(false);
+      console.log("2nd", isSubmitting);
     } else {
       //Without image file
       delete value["file"];
@@ -65,6 +70,7 @@ export default function Page() {
           });
           resetForm(action);
         });
+      setIsSubmitting(false);
     }
     return;
   };
@@ -75,6 +81,7 @@ export default function Page() {
       buttonLabel="Create Post"
       submitHandle={handleSubmit}
       reset={reset}
+      isSubmitting={isSubmitting}
     />
   );
 }

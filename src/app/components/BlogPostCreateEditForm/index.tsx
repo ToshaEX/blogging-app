@@ -39,6 +39,7 @@ type PagePropsType = {
   imageUrl?: string;
   deleteHandle?: (toast: any, router: AppRouterInstance) => void;
   deleteLabel?: string;
+  isSubmitting: boolean;
 };
 
 const initialValue: PostType = {
@@ -68,6 +69,7 @@ const BlogPostCreateEditForm = ({
   imageUrl,
   deleteHandle,
   deleteLabel,
+  isSubmitting,
 }: PagePropsType) => {
   const router = useRouter();
   const toast = useToast();
@@ -139,6 +141,7 @@ const BlogPostCreateEditForm = ({
                         : FALLBACK_SRC
                     }
                     boxSize={"xs"}
+                    fallbackSrc={FALLBACK_SRC}
                     alt="image"
                   />
                 </Stack>
@@ -162,7 +165,11 @@ const BlogPostCreateEditForm = ({
                 {initialProps && deleteLabel !== undefined && (
                   <SecondaryButton label={deleteLabel} handleClick={onOpen} />
                 )}
-                <PrimaryButton label={buttonLabel} type="submit" />
+                <PrimaryButton
+                  label={buttonLabel}
+                  type="submit"
+                  isLoading={isSubmitting}
+                />
               </Box>
             </Form>
           )}

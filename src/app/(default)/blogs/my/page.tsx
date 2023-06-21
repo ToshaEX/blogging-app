@@ -16,17 +16,23 @@ const FALLBACK_SRC =
 
 export default function Page() {
   const [posts, setPosts] = useState<PostResponseType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   useEffect(() => {
     postService.getUserPosts().then((res) => {
       const data: PostResponseType[] = res?.data;
       setPosts(data);
+      setIsLoading(false);
     });
   }, []);
 
   const handleClick = (id: string) => {
     router.push(routes.editBlogPosts + `/${id}`);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Suspense fallback={<Loading />}>

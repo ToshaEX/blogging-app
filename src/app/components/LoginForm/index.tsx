@@ -53,7 +53,7 @@ const submitHandle = async (
 
       dispatch(loggedIn({ username, email }));
       toast({
-        title: "Sign up Complete",
+        title: "Sign In",
         variant: "subtle",
         status: "success",
         id: "signIn-success",
